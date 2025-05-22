@@ -1,4 +1,3 @@
-// Example of using the Commerce Layer hook in a React component
 import React, { useEffect, useState } from "react";
 import { useCommerceLayer } from "../services/commerce-layer.service";
 import { CommerceLayerSkuResponse } from "../interfaces/commerce-layer.interfaces";

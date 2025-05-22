@@ -49,7 +49,7 @@ export const useCommerceLayer = () => {
       const authResponse: AuthResponse = await response.json();
 
       setAccessToken(authResponse.access_token);
-      setTokenExpiration(Date.now() + authResponse.expires_in * 1000 - 60000); // 1 minute buffer
+      setTokenExpiration(Date.now() + authResponse.expires_in * 1000 - 60000);
 
       return authResponse;
     } catch (err) {
