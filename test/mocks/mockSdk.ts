@@ -1,4 +1,4 @@
-import { vi } from 'vitest';
+import { vi } from "vitest";
 
 const mockSdk: any = {
   app: {
@@ -8,7 +8,20 @@ const mockSdk: any = {
     getCurrentState: vi.fn(),
   },
   ids: {
-    app: 'test-app',
+    app: "test-app",
+  },
+  field: {
+    getValue: vi.fn().mockReturnValue(""),
+    setValue: vi.fn(),
+    onValueChanged: vi.fn(),
+    getForLocale: vi.fn(),
+    setInvalid: vi.fn(),
+    removeValue: vi.fn(),
+  },
+  window: {
+    startAutoResizer: vi.fn(),
+    stopAutoResizer: vi.fn(),
+    updateHeight: vi.fn(),
   },
 };
 
