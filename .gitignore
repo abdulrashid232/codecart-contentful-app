@@ -15,7 +15,7 @@
 .env
 .env.*
 !.env*.example
-environment
+environments
 
 # misc
 .DS_Store
