@@ -1,10 +1,17 @@
 import { useState, useCallback } from "react";
-import { environment } from "../environments/environment.development";
 import {
   AuthResponse,
   CommerceLayerSkuResponse,
 } from "../interfaces/commerce-layer.interfaces";
 
+const environment = {
+  commerceLayer: {
+    endpoint: import.meta.env.VITE_COMMERCE_LAYER_ENDPOINT || "",
+    authUrl: import.meta.env.VITE_COMMERCE_LAYER_AUTH_URL || "",
+    clientId: import.meta.env.VITE_COMMERCE_LAYER_CLIENT_ID || "",
+    clientSecret: import.meta.env.VITE_COMMERCE_LAYER_CLIENT_SECRET || "",
+  },
+};
 
 export const useCommerceLayer = () => {
   const baseUrl = `${environment.commerceLayer.endpoint}/api`;
@@ -16,7 +23,6 @@ export const useCommerceLayer = () => {
     useState<CommerceLayerSkuResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-
 
   const authenticate = useCallback(async (): Promise<AuthResponse> => {
     const payload = new URLSearchParams();
@@ -106,7 +112,6 @@ export const useCommerceLayer = () => {
       }
     }, [baseUrl, getValidToken, productsCache]);
 
- 
   const clearCache = useCallback((): void => {
     setProductsCache(null);
     setAccessToken(null);
