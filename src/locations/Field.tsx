@@ -33,24 +33,28 @@ const Field = () => {
     null
   );
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  // Load the saved value from Contentful when the component mounts
   useEffect(() => {
     const currentValue = sdk.field.getValue();
     if (currentValue) {
-      setSelectedProduct(currentValue);
+      try {
+        const parsedValue =
+          typeof currentValue === "string"
+            ? JSON.parse(currentValue)
+            : currentValue;
+        setSelectedProduct(parsedValue);
+      } catch (err) {
+        console.error("Error parsing saved product value:", err);
+        sdk.field.setValue(null);
+      }
     }
 
-    // Set up auto-resize of the iframe
     sdk.window.startAutoResizer();
 
-    // Clean up on unmount
     return () => {
       sdk.window.stopAutoResizer();
     };
   }, [sdk.field, sdk.window]);
 
-  // Fetch products from Commerce Layer
   const fetchProducts = useCallback(
     async (forceRefresh = false) => {
       if (forceRefresh) {
@@ -70,12 +74,10 @@ const Field = () => {
     [getProducts, clearCache]
   );
 
-  // Initial fetch of products
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  // Filter products when search term changes
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredProducts(products);
@@ -91,8 +93,6 @@ const Field = () => {
 
     setFilteredProducts(filtered);
   }, [searchTerm, products]);
-
-  // Handle product selection
   const handleProductChange = (productId: string) => {
     if (!productId) {
       setSelectedProduct(null);
@@ -111,12 +111,11 @@ const Field = () => {
 
       setSelectedProduct(productValue);
 
-      // Save the structured data to Contentful
-      sdk.field.setValue(productValue);
+      sdk.field.setValue(JSON.stringify(productValue));
     }
   };
 
-  // Show loading state
+
   if (loading && products.length === 0) {
     return (
       <Stack alignItems="center" spacing="spacingM">
@@ -126,7 +125,7 @@ const Field = () => {
     );
   }
 
-  // Show error state
+
   if (error && products.length === 0) {
     return (
       <Stack spacing="spacingM">
