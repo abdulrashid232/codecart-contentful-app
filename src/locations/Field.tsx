@@ -162,7 +162,7 @@ const Field = () => {
         <Select
           id="product-select"
           onChange={(e) => handleProductChange(e.target.value)}
-          value={selectedProduct?.id || ""}
+          value={selectedProduct?.id ?? ""}
           isDisabled={loading}
         >
           <Select.Option value="">-- Select a product --</Select.Option>
@@ -209,7 +209,6 @@ const Field = () => {
                 {selectedProduct.name}
               </Text>
               <Text>SKU: {selectedProduct.code}</Text>
-              <Text>ID: {selectedProduct.id}</Text>
             </Stack>
             <Box style={{ marginLeft: "auto" }}>
               <IconButton
